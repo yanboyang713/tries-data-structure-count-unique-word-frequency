@@ -1,0 +1,45 @@
+* Overall
+This project is about count unique word appear frequence and sort word frequency by decreasing count order. If there are multiple words with the same count, alphabetically. And, output the first ten words along with their counts from first element to the tenth element in sorted list. Also, output the last ten words from the tenth-last to the last one.
+- I am using h.
+- The end node of tries point to string pool. In the end node of tries only recorded string pool index.
+- In the string pool, I have recorded each unique word with appear frequence.
+- Finally, using quick sort to sort string pool
+
+* list of all of data structure used
+** tries
+I am using tries for recorded each unique word. I have used fixed size array to story tries, each element is a tries node. Each node is struct data have 26 int number(represent 26 letter) and a index(name isLeaf in my code). 26 int for point to which tries node is follow this node(child node). index for point to string pool. If index equal -1 mean this node is not end node. If index >= 0, mean this is end node and which element story this word and appear frequence in string pool. There are tries array index for indicate empty node in tries array for read a new word have not in current tries can be in this empty node to create a new node.
+Tries this idea is come from http://www.geeksforgeeks.org/trie-insert-and-search/.
+Trie search complexities is O(n), n is length is word.
+
+
+*** tries data structure VS DAWG
+DAWG compare with trie using less memory because different word maybe share same node. So, it is also is possible different word share same end node. In our case, we need recored word appear frequence using end node. So, using DAWG are not a good idea.
+
+*** tries data structure VS Binary search tree or AVL tree or SPlay tree
+Binary search tree average case O(log n) for search and worst case O(n) for search
+AVL tree average case O(log n) for search and worst case O(log n) for search
+Splay tree average case O(log n) for search and worst case maybe better the O(log n) for search
+all of those complexity idea come from WiKi.
+When you insert word to (binary search tree, avl tree and splay tree) compare new word with tree node, also spent lots of time because you need compare each letter.
+However, for tries you only need compare search word, each letter. search complexity is O(n) n is length of word. Also, In our case, one article maybe have hundred of unique word. log n still is huge. But, each word length no more than 20 letter.
+To sum up, using tries data structure is more better than (binary search tree, avl tree and splay tree).
+
+
+** string pool
+string pool is fixed size array. Each element is struct data, story each unique word with appear frequence. When finish read all of word in article and set up trie. The string pool not in order, need to sort.
+* all of standard algorithms
+** quick sort
+Quicksort worst case complexity is O(n^2)
+best case complexity is O(n log n)
+average case complexity is O(n log n)
+quick sort complexity come from WiKi.
+
+In one article in fact no too much unique word. If have thousand of unique word maybe using tree sort better. However, In our case, quicksort more better because we have not too much unique word. If just have hundred of unique word, to create a tree and insert to tree to do compare, also cost a lot.
+
+To sum up, using quick sort to sort string pool is more better.
+** sscanf extracting words from a line of text
+Using sscanf compare with use stringstream to extracting words from a line of text.
+When I do some research for find a more efficient way for extracting word for time. Accounting to this website, "If you are coding for safety, use C++'s modern standard string stream. However if you are focusing your endeavours on efficiency then seriously consider using a function from the scanf family.". So, I decide using sscanf. However, when I using time command to test this two different, I can not find the time spent obvious different.
+Idea come from http://lewismanor.blogspot.com.au/2013/07/stdstringstream-vs-scanf.html website.
+** delete punctuation and change uppercase to lowercase
+When I delete punctuation and change upper case using ASCII code. Because I have used tries to story unique word, so, I have search one letter by one letter. So, when I using ASCII code to find this letter is punctuation, I will be ignore it. If it is upper case, I have used ASCII code change to lowercase.
